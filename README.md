@@ -1,7 +1,7 @@
 # Automated-Pick-and-Place-Mechanism
 
-1. User presses a button correspondin to a particular ball which he desires.
-2. The primary motor starts and the color sensor recieves input corresponding to a particular color.
+1. User presses a button corresponding to a particular ball which he desires.
+2. The primary motor starts and the color sensor recieves input corresponding to a particular color as it moves forward.
 3. When the color is detected the primary motor stops.
 4. The secondary motor(vertical arm) starts and lowers the gripper.
 5. The gripper servo motor starts and picks the object.
@@ -10,6 +10,5 @@
 8. Again, the secondary motor runs lowering the vertical assembly.
 9. The gripper motor rotates, dropping the item.
 10. The secondary motor rotates in reverse direction and the model achieves the intial starting position.
-
 
 ### NOTE:- Some parts of the program are repeatable and therefore separate functions can be defined.
