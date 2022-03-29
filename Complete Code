@@ -1,3 +1,4 @@
+// USER INPUT PINS 
 #define redbutton_pin 13
 #define greenbutton_pin 12
 #define bluebutton_pin 11 
@@ -21,6 +22,7 @@ int blueColor = 0;
 
 void setup()
 {
+  // SETTING THE TOGGLE BUTTONS
   pinMode(redbutton_pin, INPUT);
   pinMode(greenbutton_pin, INPUT);
   pinMode(bluebutton_pin, INPUT);
@@ -57,12 +59,7 @@ void loop()
   // Remaping the value of the RED (R) frequency from 0 to 255
   // You must replace with your own values. Here's an example: 
   // redColor = map(redFrequency, 70, 120, 255,0);
-  redColor = map(redFrequency, 43, 113, 255,0);
-  
-  // Printing the RED (R) value
-  Serial.print("R = ");
-  Serial.print(redColor);
-  delay(100);
+  redColor = map(redFrequency, 43, 113, 255,0);                         //Value stored for red color
   
   // Setting GREEN (G) filtered photodiodes to be read
   digitalWrite(S2,HIGH);
@@ -73,13 +70,8 @@ void loop()
   // Remaping the value of the GREEN (G) frequency from 0 to 255
   // You must replace with your own values. Here's an example: 
   // greenColor = map(greenFrequency, 100, 199, 255, 0);
-  greenColor = map(greenFrequency, 52, 135, 255, 0);
+  greenColor = map(greenFrequency, 52, 135, 255, 0);                    //Value stored for green color
   
-  // Printing the GREEN (G) value  
-  Serial.print(" G = ");
-  Serial.print(greenColor);
-  delay(100);
- 
   // Setting BLUE (B) filtered photodiodes to be read
   digitalWrite(S2,LOW);
   digitalWrite(S3,HIGH);
@@ -89,12 +81,7 @@ void loop()
   // Remaping the value of the BLUE (B) frequency from 0 to 255
   // You must replace with your own values. Here's an example: 
   // blueColor = map(blueFrequency, 38, 84, 255, 0);
-  blueColor = map(blueFrequency, 45, 122, 255, 0);
-  
-  // Printing the BLUE (B) value 
-  Serial.print(" B = ");
-  Serial.print(blueColor);
-  delay(100);
+  blueColor = map(blueFrequency, 45, 122, 255, 0);                         //Value stored for blue color
   
   if(find_red == HIGH){
   //Program corresponding to find red color ball
