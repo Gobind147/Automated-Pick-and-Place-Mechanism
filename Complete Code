@@ -143,8 +143,6 @@ void loop()
     {
       Serial.println(" - Red detected!");
       b = a+1;
-      //digitalWrite(input1, LOW);
-      //digitalWrite(input2, LOW);
       digitalWrite(enablepin,HIGH);  //Stopping the stepper motor
       delay(3000);
       gripper();
@@ -154,8 +152,6 @@ void loop()
     {
       Serial.println(" - GREEN detected!");
       b=a+1;
-      //digitalWrite(input1, LOW);
-      //digitalWrite(input2, LOW);
       digitalWrite(enablepin,HIGH);   //Stopping the stepper motor
       delay(3000);
       gripper();
@@ -164,8 +160,6 @@ void loop()
     {
       Serial.println(" - BLUE detected!");
       b=a+1;
-      //digitalWrite(input1, LOW);
-      //digitalWrite(input2, LOW);
       digitalWrite(enablepin,HIGH);   //Stopping the stepper motor
       delay(3000); 
       gripper();
