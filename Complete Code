@@ -1,14 +1,45 @@
-// USER INPUT PINS 
-#define redbutton_pin 13
-#define greenbutton_pin 12
-#define bluebutton_pin 11 
-
 // TCS230 or TCS3200 pins wiring to Arduino
-#define S0 4
-#define S1 5
-#define S2 6
-#define S3 7
-#define sensorOut 8
+
+#define S0 2
+#define S1 3
+#define S2 4
+#define S3 5
+#define sensorOut 6
+String c = "";
+int a,b;
+
+//Gripper servo
+#include <Servo.h>
+int pos = 0;
+Servo servo_11;
+
+// Define pin connections & motor's steps per revolution
+const int dirPin = 8;
+const int stepPin = 9;
+const int stepsPerRevolution = 100;
+int enablepin = 10;
+
+//Function for opening and closing of the gripper
+void gripper()
+{
+ for (pos = 45; pos <= 120; pos += 1) {
+    // tell servo to go to position in variable 'pos'
+    servo_11.write(pos);
+    // wait 15 ms for servo to reach the position
+    delay(15); // Wait for 15 millisecond(s)
+  }
+  delay(3000);    //Gripper remains closed for 3 seconds
+  for (pos = 120; pos >= 60; pos -= 1) {
+    // tell servo to go to position in variable 'pos'
+    servo_11.write(pos);
+    // wait 15 ms for servo to reach the position
+    delay(15); // Wait for 15 millisecond(s)
+  }
+  
+}
+
+
+
 
 // Stores frequency read by the photodiodes
 int redFrequency = 0;
@@ -20,18 +51,21 @@ int redColor = 0;
 int greenColor = 0;
 int blueColor = 0;
 
-void setup()
-{
-  // SETTING THE TOGGLE BUTTONS
-  pinMode(redbutton_pin, INPUT);
-  pinMode(greenbutton_pin, INPUT);
-  pinMode(bluebutton_pin, INPUT);
-  
-  // Setting the outputs
+void setup() {
+  // Setting the outputs of color sensor
   pinMode(S0, OUTPUT);
   pinMode(S1, OUTPUT);
   pinMode(S2, OUTPUT);
   pinMode(S3, OUTPUT);
+
+  // Setting Outputs for stepper motor driver
+  pinMode(stepPin, OUTPUT);
+  pinMode(dirPin, OUTPUT);
+  pinMode(enablepin ,OUTPUT);
+  
+  // pinMode(input1, OUTPUT);
+  //pinMode(input2, OUTPUT);
+  servo_11.attach(11, 500, 2500);
   
   // Setting the sensorOut as an input
   pinMode(sensorOut, INPUT);
@@ -42,55 +76,100 @@ void setup()
   
   // Begins serial communication
   Serial.begin(9600);
+
+  // Declare pins as Outputs for stepper
+  pinMode(stepPin, OUTPUT);
+  pinMode(dirPin, OUTPUT);
 }
 
-void loop()
+void loop() 
 {
-  int find_red = digitalRead(redbutton_pin);
-  int find_green = digitalRead(greenbutton_pin);
-  int find_blue = digitalRead(bluebutton_pin);
-  
-  // Setting RED (R) filtered photodiodes to be read
-  digitalWrite(S2,LOW);
-  digitalWrite(S3,LOW);
-  
-  // Reading the output frequency
-  redFrequency = pulseIn(sensorOut, LOW);
-  // Remaping the value of the RED (R) frequency from 0 to 255
-  // You must replace with your own values. Here's an example: 
-  // redColor = map(redFrequency, 70, 120, 255,0);
-  redColor = map(redFrequency, 43, 113, 255,0);                         //Value stored for red color
-  
-  // Setting GREEN (G) filtered photodiodes to be read
-  digitalWrite(S2,HIGH);
-  digitalWrite(S3,HIGH);
-  
-  // Reading the output frequency
-  greenFrequency = pulseIn(sensorOut, LOW);
-  // Remaping the value of the GREEN (G) frequency from 0 to 255
-  // You must replace with your own values. Here's an example: 
-  // greenColor = map(greenFrequency, 100, 199, 255, 0);
-  greenColor = map(greenFrequency, 52, 135, 255, 0);                    //Value stored for green color
-  
-  // Setting BLUE (B) filtered photodiodes to be read
-  digitalWrite(S2,LOW);
-  digitalWrite(S3,HIGH);
-  
-  // Reading the output frequency
-  blueFrequency = pulseIn(sensorOut, LOW);
-  // Remaping the value of the BLUE (B) frequency from 0 to 255
-  // You must replace with your own values. Here's an example: 
-  // blueColor = map(blueFrequency, 38, 84, 255, 0);
-  blueColor = map(blueFrequency, 45, 122, 255, 0);                         //Value stored for blue color
-  
-  if(find_red == HIGH){
-  //Program corresponding to find red color ball
-  
+  Serial.println("Enter the color");
+  while(Serial.available()==0)
+  {
+               
   }
-  else if(find_green == HIGH){
- //Program corresponding to find green color ball
+  while(Serial.available() >0)
+  {
+    c = Serial.readString();
   }
-  else if(find_blue == HIGH){
-  //Program corresponding to find blue color ball
+  b = 0 ;
+  a = c.length();
+  Serial.println(c);
+  //digitalWrite(input1, HIGH);
+  //digitalWrite(input2, LOW);
+  digitalWrite(enablepin,LOW);
+  digitalWrite(dirPin, LOW);
+
+  // Spin motor slowly
+  
+  while(a>b)
+  {
+      for(int x = 0; x < stepsPerRevolution; x++)
+  {
+    digitalWrite(stepPin, HIGH);
+    delayMicroseconds(90000);
+    digitalWrite(stepPin, LOW);
+    delayMicroseconds(90000);
+  }
+
+    // Setting RED (R) filtered photodiodes to be read    
+    digitalWrite(S2,LOW);
+    digitalWrite(S3,LOW);
+    // Reading the output frequency
+    redFrequency = pulseIn(sensorOut, LOW);
+    // Remaping the value of the RED (R) frequency from 0 to 255
+    redColor = map(redFrequency, 52, 103, 255,0);
+        
+    // Setting GREEN (G) filtered photodiodes to be read
+    digitalWrite(S2,HIGH);
+    digitalWrite(S3,HIGH);
+    // Reading the output frequency
+    greenFrequency = pulseIn(sensorOut, LOW);
+    // Remaping the value of the GREEN (G) frequency from 0 to 255
+    greenColor = map(greenFrequency, 78, 123, 255, 0);
+
+    // Setting BLUE (B) filtered photodiodes to be read
+    digitalWrite(S2,LOW);
+    digitalWrite(S3,HIGH);
+    // Reading the output frequency
+    blueFrequency = pulseIn(sensorOut, LOW);
+    // Remaping the value of the BLUE (B) frequency from 0 to 255
+    blueColor = map(blueFrequency, 45, 106, 255, 0);
+
+    // Checks the current detected color and prints a message in the serial monitor
+    
+    if(redColor > greenColor && redColor > blueColor && a==4)
+    {
+      Serial.println(" - Red detected!");
+      b = a+1;
+      //digitalWrite(input1, LOW);
+      //digitalWrite(input2, LOW);
+      digitalWrite(enablepin,HIGH);  //Stopping the stepper motor
+      delay(3000);
+      gripper();
+      
+    }
+    if(greenColor > redColor && greenColor > blueColor && a==6)
+    {
+      Serial.println(" - GREEN detected!");
+      b=a+1;
+      //digitalWrite(input1, LOW);
+      //digitalWrite(input2, LOW);
+      digitalWrite(enablepin,HIGH);   //Stopping the stepper motor
+      delay(3000);
+      gripper();
+    }
+    if(blueColor > redColor && blueColor > greenColor && a==5)
+    {
+      Serial.println(" - BLUE detected!");
+      b=a+1;
+      //digitalWrite(input1, LOW);
+      //digitalWrite(input2, LOW);
+      digitalWrite(enablepin,HIGH);   //Stopping the stepper motor
+      delay(3000); 
+      gripper();
+    }
+
   }
 }
