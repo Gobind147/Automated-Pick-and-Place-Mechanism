@@ -1,6 +1,8 @@
 # Automated-Pick-and-Place-Mechanism
 
 Mechatronics:- PICK AND PLACE ROBOTIC ARM : Involves the application of ARDUINO, Color Detecting Sensor and Motors.
+
+
 Term project: During the course of Mechatronics laboratory in spring semester 2022, Mechanical systems design , M.Tech , IIT Kharagpur.
 
 1. User presses a button corresponding to a particular ball which he desires.
