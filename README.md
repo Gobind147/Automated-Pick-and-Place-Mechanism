@@ -11,4 +11,6 @@
 9. The gripper motor rotates, dropping the item.
 10. The secondary motor rotates in reverse direction and the model achieves the intial starting position.
 
+
+
 ### NOTE:- Some parts of the program are repeatable and therefore separate functions can be defined.
