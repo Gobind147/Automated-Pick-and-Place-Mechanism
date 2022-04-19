@@ -12,10 +12,12 @@ int dummyvar = 0;
 int z;
 int countrevs_stepper = 0;
 
+
 //Gripper servo
 #include <Servo.h>
 int pos = 0;
 Servo servo_11;
+
 
 // Define pin connections & motor's steps per revolution
 const int dirPin = 8;
@@ -23,15 +25,19 @@ const int stepPin = 9;
 const int stepsPerRevolution = 60;
 int enablepin = 10;
 
+
 // Stores the red. green and blue colors
 int redColor = 0;
 int greenColor = 0;
 int blueColor = 0;
 
+
 // Stores frequency read by the photodiodes
 int redFrequency = 0;
 int greenFrequency = 0;
 int blueFrequency = 0;
+
+
 
 //Function for opening and closing of the gripper
 void gripperclosing()
@@ -44,6 +50,7 @@ void gripperclosing()
   }
   delay(3000);
 }
+
 
 void gripperopening()
 {
@@ -182,19 +189,19 @@ void loop()
     }
 
     readcolor();
-    checkcolor(); // Checks the current detected color and prints a message in the serial monitor
+    checkcolor();          //Checks the current detected color and prints a message in the serial monitor
     
   }
 
   // Stepper Motor returning to home position
   if(dummyvar==1)
   {
-    digitalWrite(enablepin,LOW);  //Enabling the driver module
+    digitalWrite(enablepin,LOW);             //Enabling the driver module
   }
   
   if( dummyvar ==1)
   {
-   digitalWrite(dirPin, HIGH);    // Stepper motor rotates in CCW direction (viewed from front)
+   digitalWrite(dirPin, HIGH);             // Stepper motor rotates in CCW direction (viewed from front)
 
     for(int x = 0; x < z-50; x++)
     {
